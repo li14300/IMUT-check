@@ -5,7 +5,7 @@ import requests
 import json
 
 
-# 完美校园自动打卡，内工大版（金川）
+# 内蒙古工业大学完美校园健康打卡
 # @li14300 鹏宇的昵称已被占用
 def check_data(data):
     # 从campus中获取认证后的sessionId和用户信息
