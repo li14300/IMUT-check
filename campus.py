@@ -10,7 +10,7 @@ from Crypto.Cipher import PKCS1_v1_5
 from Crypto.Util.Padding import pad
 
 
-# 完美校园自动打卡，内工大版（金川）
+# 内蒙古工业大学完美校园健康打卡
 # @li14300 鹏宇的昵称已被占用
 # des3加密
 def des_3_encrypt(string, key, iv):
