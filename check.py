@@ -162,8 +162,10 @@ def check_info(resp_json):
             json_data = json.load(fp)
         serverurl = json_data["single"]["serverurl"]
         apm = time.strftime("%Y-%m-%d, %H:%M:%S")
-        requests.post(serverurl, data={"text": "打卡完成", "desp": "" + apm + "打卡完成"})
-        print("打卡成功")
+        try:
+            requests.post(serverurl, data={"text": "打卡完成", "desp": "" + apm + "打卡完成"})
+        finally:
+            print("打卡成功")
         return str("打卡成功")
 
 
@@ -173,6 +175,3 @@ def check_start():
     resp_json = check_post(json_data)
     result = check_info(resp_json)
     return result
-
-
-check_start()
