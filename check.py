@@ -169,7 +169,7 @@ def check_info(resp_json):
         return str("打卡成功")
 
 
-def check_start():
+def check_start(event, context):
     data = campus.campus_main()
     json_data = check_data(data)
     resp_json = check_post(json_data)
