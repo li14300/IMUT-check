@@ -164,8 +164,9 @@ def check_info(resp_json):
         apm = time.strftime("%Y-%m-%d, %H:%M:%S")
         try:
             requests.post(serverurl, data={"text": "打卡完成", "desp": "" + apm + "打卡完成"})
-        finally:
-            print("打卡成功")
+            print("打卡成功，推送成功")
+        except:
+            print("打卡成功，推送失败")
         return str("打卡成功")
 
 
