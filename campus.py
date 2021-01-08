@@ -57,12 +57,8 @@ def create_info():
 def exchange_secret(public_key, private_key):
     resp_exch = requests.post(
         "https://server.17wanxiao.com/campus/cam_iface46/exchangeSecretkey.action",
-        headers={
-            "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 10; MI 9 MIUI/20.11.5)",
-        },
-        json={
-            "key": public_key
-        }
+        headers={"User-Agent": "Dalvik/2.1.0 (Linux; U; Android 10; MI 9 MIUI/20.11.5)"},
+        json={"key": public_key}
     )
     session_info = json.loads(
         rsa_decrypt(resp_exch.text.encode(resp_exch.apparent_encoding), private_key)
@@ -116,7 +112,7 @@ def get_main_info(sessionId):
 
 
 # 函数排序，对return数据拆分，方便调用
-def campus_start(phone, password, mz, daoshi, place):
+def campus_start(phone, password):
     # 第一步
     create_info_result = create_info()
     deviceId = create_info_result[0]
@@ -135,7 +131,7 @@ def campus_start(phone, password, mz, daoshi, place):
     username = data["userInfo"]["username"]
     userid = data["userInfo"]["userId"]
     # 返回结果
-    return appKey, sessionId, deptid, classDescription, stuNo, username, userid, mz, phone, daoshi, place
+    return appKey, sessionId, deptid, classDescription, stuNo, username, userid
 
 
 # 函数启动入口，便于调用与云函数挂载
@@ -144,10 +140,7 @@ def campus_main():
         json_data = json.load(fp)
     phone = json_data["single"]["phone"]
     password = json_data["single"]["password"]
-    mz = json_data["single"]["mz"]
-    daoshi = json_data["single"]["daoshi"]
-    place = json_data["single"]["place"]
-    data_campus = campus_start(phone, password, mz, daoshi, place)
+    data_campus = campus_start(phone, password)
     return data_campus
 
 

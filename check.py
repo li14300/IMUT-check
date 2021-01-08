@@ -15,10 +15,12 @@ def check_data(data):
     stuNo = data[4]
     username = data[5]
     userid = data[6]
-    mz = data[7]
-    phone = data[8]
-    daoshi = data[9]
-    place = data[10]
+    with open('./userinfo.json', 'r', encoding='utf8')as fp:
+        json_data = json.load(fp)
+    phone = json_data["single"]["phone"]
+    mz = json_data["single"]["mz"]
+    daoshi = json_data["single"]["daoshi"]
+    place = json_data["single"]["place"]
     if place == 1:
         lng = str(111.557612 + random.random() / 1000)
         lat = str(40.798552 + random.random() / 1000)
