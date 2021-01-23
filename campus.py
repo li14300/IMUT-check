@@ -56,7 +56,7 @@ def create_info():
 # 第二步，与服务器交换公钥，获取对应的sessionId，和appKey
 def exchange_secret(public_key, private_key):
     resp_exch = requests.post(
-        "https://server.17wanxiao.com/campus/cam_iface46/exchangeSecretkey.action",
+        "https://app.17wanxiao.com:443/campus/cam_iface46/exchangeSecretkey.action",
         headers={"User-Agent": "Dalvik/2.1.0 (Linux; U; Android 10; MI 9 MIUI/20.11.5)"},
         json={"key": public_key}
     )
@@ -94,7 +94,7 @@ def login(phone, password, deviceId, sessionId, appKey):
         "data": object_encrypt(login_args, appKey)
     }
     resp_login = requests.post(
-        "https://server.17wanxiao.com/campus/cam_iface46/loginnew.action",
+        "https://app.17wanxiao.com/campus/cam_iface46/loginnew.action",
         headers={"campusSign": hashlib.sha256(json.dumps(upload_args).encode('utf-8')).hexdigest()},
         json=upload_args
     ).json()
