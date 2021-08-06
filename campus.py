@@ -1,7 +1,6 @@
 import base64
 import hashlib
 import json
-import random
 import requests
 from Crypto import Random  # pycryptodome
 from Crypto.Cipher import DES3
@@ -47,7 +46,7 @@ def create_key_pair(size):
 # 第一步，创建空白信息，私钥，公钥
 def create_info():
     rsa_keys = create_key_pair(1024)
-    deviceId = str(random.randint(999999999999999, 9999999999999999))
+    deviceId = "ffffffff-0000-0000-0000-000000000000"//请自行修改随机设备号
     public_key = rsa_keys[0]
     private_key = rsa_keys[1]
     return deviceId, public_key, private_key
@@ -56,9 +55,14 @@ def create_info():
 # 第二步，与服务器交换公钥，获取对应的sessionId，和appKey
 def exchange_secret(public_key, private_key):
     resp_exch = requests.post(
-        "https://app.17wanxiao.com:443/campus/cam_iface46/exchangeSecretkey.action",
-        headers={"User-Agent": "Dalvik/2.1.0 (Linux; U; Android 10; MI 9 MIUI/20.11.5)"},
-        json={"key": public_key}
+        "https://app.17wanxiao.com/campus/cam_iface46/exchangeSecretkey.action",
+        headers={
+            "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 10; MI 9 MIUI/20.11.5)",
+        },
+        json={
+            "key": public_key
+        },
+        verify=False
     )
     session_info = json.loads(
         rsa_decrypt(resp_exch.text.encode(resp_exch.apparent_encoding), private_key)
@@ -86,7 +90,7 @@ def login(phone, password, deviceId, sessionId, appKey):
         "telephoneModel": "MI 9",
         "type": "1",
         "userName": phone,
-        "wanxiaoVersion": 10462101,
+        "wanxiaoVersion": 10531102,
         "yunyingshang": "07"
     }
     upload_args = {
@@ -96,7 +100,8 @@ def login(phone, password, deviceId, sessionId, appKey):
     resp_login = requests.post(
         "https://app.17wanxiao.com/campus/cam_iface46/loginnew.action",
         headers={"campusSign": hashlib.sha256(json.dumps(upload_args).encode('utf-8')).hexdigest()},
-        json=upload_args
+        json=upload_args,
+        verify=False
     ).json()
     return resp_login
 
@@ -121,6 +126,7 @@ def campus_start(phone, password):
     # 第二步
     exchange_secret_result = exchange_secret(public_key, private_key)
     sessionId = exchange_secret_result[0]
+    print(sessionId)
     appKey = exchange_secret_result[1]
     login(phone, password, deviceId, sessionId, appKey)
     # 第三步
@@ -136,7 +142,7 @@ def campus_start(phone, password):
 
 # 函数启动入口，便于调用与云函数挂载
 def campus_main():
-    with open('./userinfo.json', 'r', encoding='utf8')as fp:
+    with open('./userinfo_out.json', 'r', encoding='utf8')as fp:
         json_data = json.load(fp)
     phone = json_data["single"]["phone"]
     password = json_data["single"]["password"]
