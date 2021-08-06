@@ -142,7 +142,7 @@ def campus_start(phone, password):
 
 # 函数启动入口，便于调用与云函数挂载
 def campus_main():
-    with open('./userinfo_out.json', 'r', encoding='utf8')as fp:
+    with open('./userinfo.json', 'r', encoding='utf8')as fp:
         json_data = json.load(fp)
     phone = json_data["single"]["phone"]
     password = json_data["single"]["password"]
