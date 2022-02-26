@@ -83,15 +83,15 @@ def check_data(data):
                 "propertyname": "isTouch",
                 "value": "否"
             }, {
-			    "propertyname": "jkgkry",
-			    "value": "否"
-		    }, {
+                "propertyname": "jkgkry",
+                "value": "否"
+            }, {
                 "propertyname": "bodyzk",
                 "value": "否"
             }, {
-			    "propertyname": "qt",
-			    "value": ""
-		    }, {
+                "propertyname": "qt",
+                "value": ""
+            }, {
                 "propertyname": "xinqing",
                 "value": "否"
             }, {
