@@ -41,6 +41,19 @@ def check_data(data):
               '\"code\":\"\"} '
     temp = round(random.uniform(36.2, 36.8), 1)
     print(token)
+
+    # 获取ver信息
+    healthy_post_json = {
+        "businessType": "epmpics",
+        "jsonData": {"templateid": "pneumonia", "token": token},
+        "method": "userComeApp",
+    }
+    ver_res = requests.post(
+        url="https://reportedh5.17wanxiao.com/sass/api/epmpics",
+        json=healthy_post_json
+    ).json()
+    ver_data = json.loads(ver_res["data"])
+
     # 组合打卡数据
     json_data = {
         "businessType": "epmpics",
@@ -70,14 +83,17 @@ def check_data(data):
                 "propertyname": "isTouch",
                 "value": "否"
             }, {
+			    "propertyname": "jkgkry",
+			    "value": "否"
+		    }, {
                 "propertyname": "bodyzk",
                 "value": "否"
             }, {
+			    "propertyname": "qt",
+			    "value": ""
+		    }, {
                 "propertyname": "xinqing",
                 "value": "否"
-            }, {
-                "propertyname": "assistRemark",
-                "value": ""
             }, {
                 "propertyname": "cxjh",
                 "value": "无"
@@ -97,6 +113,7 @@ def check_data(data):
                 "propertyname": "age",
                 "value": daoshi
             }],
+            "ver": ver_data["ver"],
             "gpsType": 1,
             "token": token
         }

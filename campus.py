@@ -46,10 +46,9 @@ def create_key_pair(size):
 # 第一步，创建空白信息，私钥，公钥
 def create_info():
     rsa_keys = create_key_pair(1024)
-    deviceId = "ffffffff-0000-0000-0000-000000000000"//请自行修改随机设备号
     public_key = rsa_keys[0]
     private_key = rsa_keys[1]
-    return deviceId, public_key, private_key
+    return public_key, private_key
 
 
 # 第二步，与服务器交换公钥，获取对应的sessionId，和appKey
@@ -117,12 +116,11 @@ def get_main_info(sessionId):
 
 
 # 函数排序，对return数据拆分，方便调用
-def campus_start(phone, password):
+def campus_start(deviceId, phone, password):
     # 第一步
     create_info_result = create_info()
-    deviceId = create_info_result[0]
-    public_key = create_info_result[1]
-    private_key = create_info_result[2]
+    public_key = create_info_result[0]
+    private_key = create_info_result[1]
     # 第二步
     exchange_secret_result = exchange_secret(public_key, private_key)
     sessionId = exchange_secret_result[0]
@@ -144,9 +142,10 @@ def campus_start(phone, password):
 def campus_main():
     with open('./userinfo.json', 'r', encoding='utf8')as fp:
         json_data = json.load(fp)
+    deviceId = json_data["single"]["deviceId"]
     phone = json_data["single"]["phone"]
     password = json_data["single"]["password"]
-    data_campus = campus_start(phone, password)
+    data_campus = campus_start(deviceId, phone, password)
     return data_campus
 
 

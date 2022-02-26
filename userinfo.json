@@ -1,5 +1,6 @@
 {
   "single": {
+    "deviceId": "注册器生成的UUID/IMEI",
     "phone": "完美校园绑定手机号",
     "password": "完美校园密码",
     "mz": "民族",
